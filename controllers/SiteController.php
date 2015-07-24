@@ -2,26 +2,23 @@
 
 namespace app\controllers;
 
-use app\models\ChangeForm;
-use app\models\ForgetForm;
-use app\models\RegisterForm;
 
-//use app\models\User;
 use app\models\User;
 use app\models\UserForgetInfo;
 use Yii;
+use yii\base\Exception;
 use yii\db\Expression;
 use yii\filters\AccessControl;
-//use app\components\Main2;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
-//use yii\jui\DatePicker;
+use yii\web\NotFoundHttpException;
+use app\components\Main2;
+use app\models\ChangeForm;
+use app\models\ForgetForm;
+use app\models\RegisterForm;
 use app\components\ActionTimeFilter;
-use yii\web\HttpException;
-
-//use yii\swiftmailer\Mailer;
 
 class SiteController extends Controller
 {
@@ -70,86 +67,16 @@ class SiteController extends Controller
                 'maxLength'=>5,
                 'minLength'=>5,
                 'offset'=>2
-            ],
-            /*
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                'maxLength' => 5,
-                'minLength' => 5
-            ],
-            */
+            ]
         ];
     }
 
     public function actionIndex()
     {
-        //Yii::trace("Action spent  second.");
-
-        //Yii::info('dddddddddddddddddd');
-        //var_dump(Yii::$app->user->id);
-        //var_dump(Yii::$app->security->generateRandomString());
-        //print_r(Yii::$app->getUser());
-        //var_dump(Main2::getIP());
-        /*
-        var_dump(Yii::$app->request->userIP);
-        $request = Yii::$app->request;
-        $params = $request->bodyParams;
-        print_r($params);
-        print_r($request->get());
-            */
-        /*
-        echo DatePicker::widget([
-                'language' => 'zh-CN',
-                'name'  => 'country',
-                'dateFormat' => 'yyyy-MM-dd',
-                'clientOptions' => [
-                    'dateFormat' => 'yy-mm-dd',
-                ],
-
-        ]);
-        */
-        //$model = new \app\models\User();
-        //print_r($model->attributes);
-        //print_r(Yii::$app->mailer);
-        /*
-        try{
-            $mail = Yii::$app->mailer->compose();
-            $mail->setTo('370500790@qq.com');
-            $mail->setSubject("邮件测试");
-            //$mail->setTextBody('zheshisha ');   //发布纯文字文本
-            $mail->setHtmlBody("<br>问我我我我我");    //发布可以带html标签的文本
-            if ($mail->send())
-                echo "success";
-            else
-                echo "failse";
-        }catch(Exception $e){
-            print_r($e);
-        }
-        */
-        print_r(Yii::$app->request->get());
         return $this->render('index');
     }
 
     public function actionLogin(){
-        /*
-        if (!\Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
-        */
-        /*
-        $model = new TbUser();
-        if(isset($_POST['LoginForm'])){
-            $model->attributes = $_POST['LoginForm'];
-            if($model->validate() && $model->login()){
-                return $this->goBack();
-            }else{
-                return $this->render('login', [
-                    'model' => $model
-                ]);
-            }
-        }
-        */
-
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
@@ -250,17 +177,6 @@ class SiteController extends Controller
                         Yii::$app->session->setFlash('sendEmailSuccess','发送成功');
                     }
                 }
-
-                /*$mail = Yii::$app->mailer->compose();
-                $mail->setTo('370500790@qq.com');
-                $mail->setSubject("邮件测试");
-                //$mail->setTextBody('zheshisha ');   //发布纯文字文本
-                $mail->setHtmlBody("<br>问我我我我我");    //发布可以带html标签的文本
-                if ($mail->send())
-                    echo "success";
-                else
-                    echo "failse";*/
-
             }
         }
 
@@ -271,17 +187,28 @@ class SiteController extends Controller
 
     public function actionReset(){
         $model = UserForgetInfo::find()->where('random=:r',[':r'=>Yii::$app->request->get('_')])->one();
-        if($model === null) throw new HttpException('404','没找到');
-        //var_dump($model);
+
+        if($model === null) throw new NotFoundHttpException('请求的页面不存在.');
 
         $time = time()- $model->expiredtime;
-        if($time > 86400) throw new HttpException('404','没找到');
+        if($time > Main2::EXPIRED_TIME) {
+            //throw new HttpException('404','已经过期');
+            //return $this->render('expired');
+        }
 
 
+        $user = User::findOne($model->uid);
+        //$user->resetPassword();
 
-
-
-
+        //$user->setScenario('ddd');
+        //$user = new User();
+        //print_r($user->getScenario());
+        //$user->password = md5('seven');
+        //$user->updatetime = new Expression('NOW()');
+        //echo md5('seven');
+        //$user->save();
+        //print_r($user->errors);
+        //print_r(Yii::$app->params['adminEmail']);
     }
 
 

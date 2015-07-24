@@ -4,6 +4,12 @@ namespace app\components;
 
 class Main2
 {
+    /* *
+     * 找回密码的过期时间
+     * 24小时
+     * */
+    const EXPIRED_TIME = 86400;
+
 	/*
 	 * 用户活跃状态
 	 */
