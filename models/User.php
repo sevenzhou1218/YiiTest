@@ -125,25 +125,18 @@ class User extends  \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public function validatePassword($password)
     {
-        return $this->password === md5($password);
+        return $this->password === $this->encrypt($password);
     }
 
 
     public function beforeSave($insert){
         if(parent::beforeSave($insert)){
             if($this->isNewRecord)
-                $this->password = md5($this->password);
+                $this->password = $this->encrypt($this->password);
             return true;
         }
         return false;
         //return parent::beforeSave($insert);
-    }
-
-
-    public function resetPassword(){
-        if($this->id !== null){
-
-        }
     }
 
 

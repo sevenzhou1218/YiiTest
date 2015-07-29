@@ -3,10 +3,12 @@
 namespace app\controllers;
 
 
+use app\models\ResetForm;
 use app\models\User;
 use app\models\UserForgetInfo;
 use Yii;
-use yii\base\Exception;
+//use yii\base\Exception;
+use yii\web\HttpException;
 use yii\db\Expression;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -19,6 +21,7 @@ use app\models\ChangeForm;
 use app\models\ForgetForm;
 use app\models\RegisterForm;
 use app\components\ActionTimeFilter;
+
 
 class SiteController extends Controller
 {
@@ -192,12 +195,25 @@ class SiteController extends Controller
 
         $time = time()- $model->expiredtime;
         if($time > Main2::EXPIRED_TIME) {
-            //throw new HttpException('404','已经过期');
+            throw new HttpException('200','已经过期');
             //return $this->render('expired');
         }
 
+        $resetModel = new ResetForm();
+        if ($resetModel->load(Yii::$app->request->post())){
+            if($resetModel->resetPassword($model->uid)){
+                //TODO
+                echo 'd';
+            }else{
+                echo 'f';
+            }
+        }
 
-        $user = User::findOne($model->uid);
+        return $this->render('reset',[
+            'model'=>$resetModel
+        ]);
+
+        //$user = User::findOne($model->uid);
         //$user->resetPassword();
 
         //$user->setScenario('ddd');
