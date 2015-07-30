@@ -32,6 +32,14 @@ class LoginForm extends Model
         ];
     }
 
+    public function attributeLabels(){
+        return [
+            'username'=>Yii::t('attributes','Username'),
+            'rememberMe'=>Yii::t('attributes','RememberMe'),
+            'password'=>Yii::t('attributes','Password')
+        ];
+    }
+
     /**
      * Validates the password.
      * This method serves as the inline validation for password.

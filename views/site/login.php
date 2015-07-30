@@ -6,7 +6,7 @@ use yii\bootstrap\ActiveForm;
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model app\models\LoginForm */
 
-$this->title = 'Login';
+$this->title = Yii::t('attributes','Login');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-login">

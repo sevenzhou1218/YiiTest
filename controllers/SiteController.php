@@ -98,6 +98,7 @@ class SiteController extends Controller
             return $this->goHome();
         }
         */
+        echo Yii::$app->language;
         $model = new RegisterForm();
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->register()) {

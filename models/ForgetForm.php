@@ -17,15 +17,15 @@ class ForgetForm extends Model{
 
     public function  attributeLabels(){
         return [
-            'username'=>'账号名',
-            'email'=>'邮箱'
+            'username'=>\Yii::t('attributes','Username'),
+            'email'=>\Yii::t('attributes','Email')
         ];
     }
 
     public function check(){
         $user = User::find()->where(['username'=>$this->username,'email'=>$this->email])->one();
         if($user === null){
-            $this->addError('username','账号或邮箱不正确');
+            $this->addError('username',\Yii::t('attributes','Username Or Email Incorrect'));
         }else{
             return $user;
         }

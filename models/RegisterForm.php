@@ -26,6 +26,16 @@ class RegisterForm extends Model{
         ];
     }
 
+    public function attributeLabels(){
+        return [
+            'username' => \Yii::t('attributes','Username'),
+            'password' => \Yii::t('attributes','Password'),
+            'repassword' => \Yii::t('attributes','RePassword'),
+            'email' => \Yii::t('attributes','Email'),
+            'verifyCode' => \Yii::t('attributes','VerifyCode')
+        ];
+    }
+
     public function register(){
         if($this->validate()){
             $user = new User();

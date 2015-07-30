@@ -3,7 +3,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\captcha\Captcha;
 
-$this->title = 'Change Password';
+$this->title = Yii::t('attributes','Change Password');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-change">

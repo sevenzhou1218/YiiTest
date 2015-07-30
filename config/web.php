@@ -8,7 +8,6 @@ $config = [
     'bootstrap' => ['log'],
     'language'=>'zh-CN',
     'components' => [
-
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'LDD2f0v0_alnbq5XBEHrniV-xAoNO8Wl',
@@ -30,7 +29,7 @@ $config = [
                 'class' => 'Swift_SmtpTransport',
                 'host' => 'smtp.163.com',
                 'username' => 'zcyh520@163.com',
-                'password' => '********',
+                'password' => '',
                 'port' => '25',
                 'encryption' => 'tls',
 
@@ -50,6 +49,13 @@ $config = [
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
+        'i18n' => [
+            'translations' => [
+                '*' => [
+                    'class' => 'yii\i18n\PhpMessageSource'
+                ],
+            ],
+        ]
     ],
     'params' => $params,
     //'defaultRoute' => 'hello'
